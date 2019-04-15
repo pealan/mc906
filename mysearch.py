@@ -12,7 +12,7 @@ class Point(object):
     def __init__(self,x,y):
         self.x = x
         self.y = y
-
+    # Whatever tiebraker
     def __lt__(self,node):
         return self.x < node.x
     
@@ -59,7 +59,8 @@ class MatrixProblem(Problem):
         x2,y2 = matrix_to_coordinates(self.goal.x,self.goal.y)
         if self.heuristic == 1:
             return x2-x1
-        else: 
+        else:
+            # Euclidian distance
             return math.sqrt((x2-x1)**2+(y2-y1)**2)
 
     def goal_test(self, state):
@@ -83,6 +84,7 @@ def matrix_to_coordinates(i,j):
     y = 60-i
     return x,y
 
+# Matrix representation of the cartesian map
 def init_matrix(initial,goal):
     matrix = np.zeros((61,81),dtype=int)
     matrix[:,10] = -1
@@ -99,6 +101,7 @@ def paint_solution(node,matrix):
     for point in node.solution():
         matrix[point.x][point.y] = 3
 
+# Transforms our matrix into a plot graph (This takes a long time the more we have to paint so be patient, I was lazy regarding this part)
 def plot_result(matrix,initial,goal,title):
     plt.axis([-10,70,0,60])
     plt.grid()
@@ -124,6 +127,7 @@ def plot_result(matrix,initial,goal,title):
     plt.show()
     plt.clf()
 
+""" Actual script """
 # Initial
 initial = Point(50,20)
 goal = Point(10,60)
@@ -160,7 +164,7 @@ paint_solution(node,matrix)
 print(''.join(['DFS time: ',str(end - start)]))
 plot_result(matrix,initial,goal,''.join(['Busca em profundidade (t = ', str(round(end - start,4)), ' s)']))
 
-# BFS
+# BFS close to goal
 initial = Point(20,60)
 goal = Point(10,60)
 
@@ -176,7 +180,7 @@ paint_solution(node,matrix)
 print(''.join(['BFS easy search time: ',str(end - start)]))
 plot_result(matrix,initial,goal,''.join(['Busca em expansão (t = ', str(round(end - start,4)), ' s)']))
 
-# DFS
+# DFS close to goal
 initial = Point(20,60)
 goal = Point(10,60)
 matrix = init_matrix(initial,goal)
@@ -191,7 +195,7 @@ print(''.join(['DFS easy time: ',str(end - start)]))
 plot_result(matrix,initial,goal,''.join(['Busca em profundidade (t = ', str(round(end - start,4)), ' s)']))
 
 
-# A*
+# A* poor heuristic
 initial = Point(50,20)
 goal = Point(10,60)
 matrix = init_matrix(initial,goal)
@@ -205,7 +209,7 @@ paint_solution(node,matrix)
 print(''.join(['A* time bad heuristic: ',str(end - start)]))
 plot_result(matrix,initial,goal,''.join(['Busca A* (t = ', str(round(end - start,4)), ' s)']))
 
-# A*
+# A* poor heuristic close to goal
 initial = Point(20,60)
 goal = Point(10,60)
 matrix = init_matrix(initial,goal)
@@ -219,7 +223,7 @@ paint_solution(node,matrix)
 print(''.join(['A* easy time bad heuristic: ',str(end - start)]))
 plot_result(matrix,initial,goal,''.join(['Busca A* (t = ', str(round(end - start,4)), ' s)']))
 
-# A*
+# A* euclidian heuristic
 initial = Point(50,20)
 goal = Point(10,60)
 matrix = init_matrix(initial,goal)
@@ -233,7 +237,7 @@ paint_solution(node,matrix)
 print(''.join(['A* time: ',str(end - start)]))
 plot_result(matrix,initial,goal,''.join(['Busca A* (t = ', str(round(end - start,4)), ' s)']))
 
-# A*
+# A* euclidian heuristic close to goal
 initial = Point(20,60)
 goal = Point(10,60)
 matrix = init_matrix(initial,goal)
